@@ -149,6 +149,7 @@ static NSString *CellIdentifier = @"CellIdentifier";
     NSDictionary *dataSourceItem = [self.model.dataSource objectAtIndex:indexPath.row];
     cell.titleLabel.text =  [dataSourceItem valueForKey:@"title"];
     cell.bodyLabel.text = [dataSourceItem valueForKey:@"body"];
+    cell.accessoryType = [[dataSourceItem valueForKey:@"accessoryType"] intValue];
     
     // Make sure the constraints have been added to this cell, since it may have just been created from scratch
     [cell setNeedsUpdateConstraints];
@@ -178,12 +179,15 @@ static NSString *CellIdentifier = @"CellIdentifier";
     NSDictionary *dataSourceItem = [self.model.dataSource objectAtIndex:indexPath.row];
     cell.titleLabel.text =  [dataSourceItem valueForKey:@"title"];
     cell.bodyLabel.text = [dataSourceItem valueForKey:@"body"];
+    cell.accessoryType = [[dataSourceItem valueForKey:@"accessoryType"] intValue];
     
     // Make sure all views are where they belong (accessory view visible or not)
-    [cell layoutSubviews];
+    [cell layoutSubviews];      // ONLY NECESSARY, IF YOU DO WHAT YOU SHOULDN'T
     
     // Make sure the constraints have been added to this cell, since it may have just been created from scratch
-    [cell updateConstraints];
+//    [cell setNeedsUpdateConstraints];
+//    [cell updateConstraintsIfNeeded];
+    [cell updateConstraints];       // DON'T DO THIS!
     
     // The cell's width must be set to the same size it will end up at once it is in the table view.
     // This is important so that we'll get the correct height for different table view widths, since our cell's
@@ -198,8 +202,9 @@ static NSString *CellIdentifier = @"CellIdentifier";
     // Do the layout pass on the cell, which will calculate the frames for all the views based on the constraints
     // (Note that the preferredMaxLayoutWidth is set on multi-line UILabels inside the -[layoutSubviews] method
     // in the UITableViewCell subclass
-    [cell setNeedsLayout];
-    [cell layoutIfNeeded];
+//    [cell setNeedsLayout];
+//    [cell layoutIfNeeded];
+    [cell layoutSubviews];      // DON'T DO THIS!
     
     // Get the actual height required for the cell
     CGFloat height = [cell.contentView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize].height;

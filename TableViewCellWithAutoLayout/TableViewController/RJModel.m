@@ -52,9 +52,7 @@
     for ( NSString *familyName in fontFamilies ) {
         NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:familyName, @"title",
                                     [self randomLorumIpsum], @"body",
-                                    @"", @"element2",
-                                    @"", @"element3",
-                                    @"", @"element4",
+                                    [self randomAccessoryType], @"accessoryType",
                                     nil];
         [result addObject:dictionary];
     }
@@ -72,13 +70,16 @@
     
     NSDictionary *dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:familyName, @"title",
                                 [self randomLorumIpsum], @"body",
-                                @"", @"element2",
-                                @"", @"element3",
-                                @"", @"element4",
+                                [self randomAccessoryType], @"accessoryType",
                                 nil];
     
     [self.dataSource addObject:dictionary];
     
+}
+
+- (NSNumber *)randomAccessoryType {
+    UITableViewCellAccessoryType type = arc4random() % 2 == 0 ? UITableViewCellAccessoryNone : UITableViewCellAccessoryDetailDisclosureButton;
+    return [NSNumber numberWithInt:type];
 }
 
 - (NSString *)randomLorumIpsum {
